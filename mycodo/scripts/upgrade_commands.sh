@@ -374,7 +374,7 @@ case "${1:-''}" in
         INSTALL_ADDRESS="https://dl.influxdata.com/influxdb/releases/"
         INSTALL_FILE="influxdb_${INFLUXDB_VERSION}_armhf.deb"
         CORRECT_VERSION="${INFLUXDB_VERSION}-1"
-        CURRENT_VERSION=$(apt-cache policy influxdb | grep 'Installed' | gawk '{print $2}')
+        CURRENT_VERSION=$(sudo apt-cache policy influxdb | grep 'Installed' | gawk '{print $2}')
         if [[ "${CURRENT_VERSION}" != "${CORRECT_VERSION}" ]]; then
             echo "#### Incorrect InfluxDB version (v${CURRENT_VERSION}) installed. Installing v${CORRECT_VERSION}..."
             wget --quiet ${INSTALL_ADDRESS}${INSTALL_FILE}
@@ -421,7 +421,7 @@ case "${1:-''}" in
     'update-packages')
         printf "\n#### Installing prerequisite apt packages and update pip\n"
         apt-get remove -y apache2 python-cffi-backend python3-cffi-backend
-        apt-get install -y ${APT_PKGS}
+        sudo apt-get install -y ${APT_PKGS}
         python3 /usr/lib/python3/dist-packages/easy_install.py pip
         python3 -m pip install --upgrade pip
     ;;
